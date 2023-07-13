@@ -9,11 +9,15 @@ def load_memos
   JSON.parse(File.read(MEMOS_FILE)) rescue [] # 変数のスコープを最低限にするため、代入処理は含めていない
 end
 
-def add_and_save_memos
-  memos = load_memos
-  memo = { title: params[:title], body: params[:body] }
-  memos << memo
+def save_memos(memos)
   File.write(MEMOS_FILE, JSON.pretty_generate(memos))
+end
+
+def assign_memos_element(index)
+  memos = load_memos[index.to_i]
+  @index = index
+  @memo_title = memos["title"]
+  @memo_body = memos["body"]
 end
 
 # トップページ
@@ -28,28 +32,37 @@ get '/new' do
 end
 
 post '/new' do
-  add_and_save_memos
+  memos = load_memos
+  memo = { title: params[:title], body: params[:body] }
+  memos << memo
+  save_memos(memos)
   redirect to('/')
 end
 
 # メモ閲覧
 get '/show/*' do |index|
-  memos = load_memos
-  @memo_title = memos[index.to_i]["title"]
-  @memo_body = memos[index.to_i]["body"]
+  assign_memos_element(index)
   erb :show, layout: :layout
 end
 
 # メモ編集
-get '/edit' do
+get '/edit/*' do |index|
+  assign_memos_element(index)
   erb :edit, layout: :layout
 end
 
-post '/edit' do
-  add_and_save_memos
-  redirect to('/show')
+patch '/edit/*' do |index|
+  memos = load_memos
+  memo = { title: params[:title], body: params[:body] }
+  memos[index.to_i].replace(memo)
+  save_memos(memos)
+  redirect to("/show/#{index}")
 end
 
 # メモ削除
-delete '/delete' do
+delete '/delete/*' do |index|
+  memos = load_memos
+  memos.delete_at(index.to_i)
+  save_memos(memos)
+  redirect to('/')
 end
