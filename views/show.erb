@@ -1,0 +1,9 @@
+<h1>メモアプリ</h1>
+<h2><%= @memo_title %></h2>
+<p><%= @memo_body %></p>
+<a href="/edit">編集</a>
+<form method="post" action="/delete">
+    <button type="submit">削除</button>
+    <input type="hidden" name="_method" value="delete">
+</form>
+<a href="/">戻る</a>

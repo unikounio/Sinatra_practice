@@ -1,0 +1,7 @@
+<h1>メモアプリ</h1>
+<ul>
+    <% @memos.each do |memo| %>
+    <li><a href="/show/<%= @memos.index(memo) %>"><%= memo["title"] %></a></li>
+    <% end %>
+</ul>
+<a href="/new">追加</a>
