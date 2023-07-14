@@ -7,6 +7,6 @@
 
 <ul>
     <% @memos.each do |memo| %>
-    <li><a href="/show/<%= @memos.index(memo) %>"><%= memo["title"] %></a></li>
+    <li><a href="/memos/<%= @memos.index(memo) %>"><%= memo["title"] %></a></li>
     <% end %>
 </ul>

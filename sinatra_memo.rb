@@ -42,29 +42,29 @@ post '/new' do
   redirect to('/')
 end
 
-get '/show/*' do |index|
-  assign_memos_element(index)
-  erb :show
-end
-
-get '/edit/*' do |index|
+get '/memos/*/edit' do |index|
   assign_memos_element(index)
   erb :edit
 end
 
-patch '/edit/*' do |index|
-  memos = load_memos
-  memo = { title: CGI.escapeHTML(params[:title]), body: CGI.escapeHTML(params[:body]) }
-  memos[index.to_i].replace(memo)
-  save_memos(memos)
-  redirect to("/show/#{index}")
+get '/memos/*' do |index|
+  assign_memos_element(index)
+  erb :show
 end
 
-delete '/delete/*' do |index|
+delete '/memos/*' do |index|
   memos = load_memos
   memos.delete_at(index.to_i)
   save_memos(memos)
   redirect to('/')
+end
+
+patch '/memos/*' do |index|
+  memos = load_memos
+  memo = { title: CGI.escapeHTML(params[:title]), body: CGI.escapeHTML(params[:body]) }
+  memos[index.to_i].replace(memo)
+  save_memos(memos)
+  redirect to("/memos/#{index}")
 end
 
 not_found do

@@ -4,7 +4,7 @@
 
 <div class="container">
     <div class="form-items">
-        <form method="post" action="/edit/<%= @index %>">
+        <form method="post" action="/memos/<%= @index %>">
             <div class="form-items__item">
                 <input type="text" name="title" value="<%= @memo_title %>">
             </div>
@@ -17,5 +17,5 @@
             </div>
         </form>
     </div>
+    <a class="return" href="/memos/<%= @index %>">戻る</a>
 </div>
-<a class="return" href="/show/<%= @index %>">戻る</a>
