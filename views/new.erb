@@ -1,7 +1,20 @@
-<h1>メモアプリ</h1>
-<form method="post" action="/new">
-    <p><input type= "text" name="title"></p>
-    <p><textarea name="body" style="height: 284px;"></textarea></p>
-    <input type="submit" value="保存">
-    <a href="/">戻る</a>
-</form>
+<div class="header">
+    <div class="header_name">メモアプリ</div>
+</div>
+
+<div class="container">
+    <form method="post" action="/new">
+        <div class="form-items">
+            <div class="form-items__item">
+                <input type="text" name="title">
+            </div>
+            <div class="form-items__item">
+                <textarea name="body" style="height: 284px;"></textarea>
+            </div>
+        </div>
+        <div class="form-action">
+            <input type="submit" value="保存">
+        </div>
+    </form>
+</div>
+<a class="return" href="/">戻る</a>

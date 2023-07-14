@@ -1,9 +1,21 @@
-<h1>メモアプリ</h1>
+<div class="header">
+    <div class="header_name">メモアプリ</div>
+</div>
 
-<form method="post" action="/edit/<%= @index %>">
-    <p><input type= "text" name="title" value= <%= @memo_title %>></p>
-    <p><textarea name="body"  ><%= @memo_body %></textarea></p>
-    <input type="submit" value="変更">
-    <input type="hidden" name="_method" value="patch">
-    <a href="/show/<%= @index %>">戻る</a>
-</form>
+<div class="container">
+    <div class="form-items">
+        <form method="post" action="/edit/<%= @index %>">
+            <div class="form-items__item">
+                <input type="text" name="title" value="<%= @memo_title %>">
+            </div>
+            <div class="form-items__item">
+                <textarea name="body"><%= @memo_body %></textarea>
+            </div>
+            <div class="form-action">
+            <input type="submit" value="変更">
+            <input type="hidden" name="_method" value="patch">
+            </div>
+        </form>
+    </div>
+</div>
+<a class="return" href="/show/<%= @index %>">戻る</a>

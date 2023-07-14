@@ -1,9 +1,28 @@
-<h1>メモアプリ</h1>
-<h2><%= @memo_title %></h2>
-<p><%= @memo_body %></p>
-<form method="post" action="/delete/<%= @index %>">
-    <a href="/edit/<%= @index %>">編集</a>
-    <button type="submit">削除</button>
-    <input type="hidden" name="_method" value="delete">
-</form>
-<a href="/">戻る</a>
+<div class="header">
+    <div class="header_name">
+        <h1>メモアプリ</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="memo-items">
+        <div class="memo-items__title">
+            <%= @memo_title %>
+        </div>
+        <div class="memo-items__body">
+            <%= @memo_body %>
+        </div>
+    </div>
+    <div class="buttons">
+        <form class="buttons__edit" method="get" action="/edit/<%= @index %><%= @index %>">
+            <input type="submit" value="変更">
+        </form>
+        <form class="buttons__delete" method="post" action="/delete/<%= @index %>">
+            <input type="submit" value="削除">
+            <input type="hidden" name="_method" value="delete">
+        </form>
+    </div>
+    <div class="return">
+        <a href="/">戻る</a>
+    </div>
+</div>
