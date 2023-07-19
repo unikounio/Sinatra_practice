@@ -18,9 +18,9 @@ def save_memos(memos)
   File.write(MEMOS_FILE, JSON.pretty_generate(memos))
 end
 
-def assign_memos_element(index)
-  memos = load_memos[index.to_i]
-  @index = index
+def assign_memos_element(memo_id)
+  memos = load_memos[memo_id.to_i]
+  @index = memo_id
   @memo_title = memos['title']
   @memo_body = memos['body']
 end
@@ -30,11 +30,11 @@ get '/' do
   erb :top
 end
 
-get '/new' do
+get '/memos/new' do
   erb :new
 end
 
-post '/new' do
+post '/memos' do
   memos = load_memos
   memo = { title: CGI.escapeHTML(params[:title]), body: CGI.escapeHTML(params[:body]) }
   memos << memo
@@ -42,29 +42,29 @@ post '/new' do
   redirect to('/')
 end
 
-get '/memos/*/edit' do |index|
-  assign_memos_element(index)
+get '/memos/:id/edit' do
+  assign_memos_element(params[:id])
   erb :edit
 end
 
-get '/memos/*' do |index|
-  assign_memos_element(index)
+get '/memos/:id' do
+  assign_memos_element(params[:id])
   erb :show
 end
 
-delete '/memos/*' do |index|
+delete '/memos/:id' do
   memos = load_memos
-  memos.delete_at(index.to_i)
+  memos.delete_at(params[:id].to_i)
   save_memos(memos)
   redirect to('/')
 end
 
-patch '/memos/*' do |index|
+patch '/memos/:id' do
   memos = load_memos
   memo = { title: CGI.escapeHTML(params[:title]), body: CGI.escapeHTML(params[:body]) }
-  memos[index.to_i].replace(memo)
+  memos[params[:id].to_i].replace(memo)
   save_memos(memos)
-  redirect to("/memos/#{index}")
+  redirect to("/memos/#{params[:id]}")
 end
 
 not_found do
