@@ -8,9 +8,11 @@ require 'json'
 MEMOS_FILE = 'memos.json' # ファイルパスを変更しやすくするために定数化している
 
 def load_memos
-  JSON.parse(File.read(MEMOS_FILE)) # 変数のスコープを最低限にするため、代入処理は含めていない
-rescue StandardError
-  []
+  if File.exist? MEMOS_FILE
+    JSON.parse(File.read(MEMOS_FILE)) # 変数のスコープを最低限にするため、代入処理は含めていない
+  else
+    []
+  end
 end
 
 def save_memos(memos)
