@@ -4,7 +4,6 @@ require 'bundler/setup'
 Bundler.require(:default)
 require 'sinatra/reloader'
 require 'json'
-require 'cgi/util'
 
 MEMOS_FILE = 'memos.json' # ファイルパスを変更しやすくするために定数化している
 
@@ -36,7 +35,7 @@ end
 
 post '/memos' do
   memos = load_memos
-  memo = { title: CGI.escapeHTML(params[:title]), body: CGI.escapeHTML(params[:body]) }
+  memo = { title: params[:title], body: params[:body] }
   memos << memo
   save_memos(memos)
   redirect to('/')
@@ -69,4 +68,10 @@ end
 
 not_found do
   erb :not_found
+end
+
+helpers do
+  def h(text)
+    Rack::Utils.escape_html(text)
+  end
 end
