@@ -62,7 +62,7 @@ end
 
 patch '/memos/:id' do
   memos = load_memos
-  memo = { title: CGI.escapeHTML(params[:title]), body: CGI.escapeHTML(params[:body]) }
+  memo = { title: params[:title], body: params[:body] }
   memos[params[:id].to_i].replace(memo)
   save_memos(memos)
   redirect to("/memos/#{params[:id]}")
