@@ -1,0 +1,26 @@
+<div class="header">
+    <div class="header_name">
+        <h1>メモアプリ</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="memo-items">
+        <div class="memo-items__title">
+            <%= h @memo_title %>
+        </div>
+        <div class="memo-items__body">
+            <%= h @memo_body %>
+        </div>
+    </div>
+    <div class="buttons">
+        <form class="buttons__edit" method="get" action="/memos/<%= @index %>/edit">
+            <input type="submit" value="変更">
+        </form>
+        <form class="buttons__delete" method="post" action="/memos/<%= @index %>">
+            <input type="submit" value="削除">
+            <input type="hidden" name="_method" value="delete">
+        </form>
+    </div>
+    <a class="return" href="/">戻る</a>
+</div>

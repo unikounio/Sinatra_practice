@@ -1,0 +1,10 @@
+<div class="header">
+    <div class="header_name">メモアプリ</div>
+    <a class=add href="/memos/new">追加</a>
+</div>
+
+<ul>
+    <% @memos.each do |memo| %>
+    <li><a href="/memos/<%= @memos.index(memo) %>"><%= h memo["title"] %></a></li>
+    <% end %>
+</ul>
