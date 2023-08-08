@@ -1,5 +1,5 @@
 # Sinatra_practice
-FBCのプラクティス「Sinatra を使ってWebアプリケーションの基本を理解する」課題提出用リポジトリです。
+FBCのプラクティス「Sinatraを使ってWebアプリケーションの基本を理解する」及び「WebアプリからのDB利用」課題提出用リポジトリです。
 Sinatraでつくったシンプルなメモアプリのファイルが入っています。
 
 # How to use
@@ -8,10 +8,19 @@ Sinatraでつくったシンプルなメモアプリのファイルが入って�
 ```
 $ git clone https://github.com/unikounio/Sinatra_practice.git
 ```
-2. 【レビュアーさん用】`git checkout develop`を実行し、開発用ブランチに切り替えます。
-3. メモアプリの起動に必要なGemを準備するため、`bundle install`します。
-4. `bundle exec ruby sinatra_memo.rb`でメモアプリを起動します。
-5. お使いのブラウザで`http://localhost:4567/`へアクセスしてください。
+2. `cd Sinatra_practice`を実行し、Sinatra_practiceディレクトリに移動します。
+3. 【レビュアーさん用】`git checkout develop`を実行し、開発用ブランチに切り替えます。
+4. メモアプリの起動に必要なGemを準備するため、`bundle install`します。
+5. PostgreSQLを起動します。OS毎に次のコマンドを実行してください。<br>
+  Linux: `sudo systemctl start postgresql`<br>
+  MacOS: `brew services start postgresql`<br>
+  Windows: `net start postgresql-x64-[PostgreSQLのバージョン]`<br>
+  ※いずれも一般的な例であり、OSやPostgreSQLのインストール方法によって異なる場合があります。
+6. `psql -U [ユーザ名] [データベース名]`を実行して任意のデータベースに接続します。<br>
+  ※ユーザ名はOSのログインユーザーとしてください。また、データベース名がわからない場合は`postgres`としてください。
+7. `\i create-db-memos.sql`を実行し、メモの保存に使用するデータベースとテーブルを作成します。
+8. シェルで`bundle exec ruby sinatra_memo.rb`を実行し、メモアプリを起動します。
+9. お使いのブラウザで`http://localhost:4567/`へアクセスしてください。
 ## メモの新規作成
 1. トップ画面右上の`追加`ボタンを押します。
 2. メモの新規作成画面に遷移するので、メモしたい内容を入力します。上の枠が見出しで、下の枠が本文の入力欄です。
