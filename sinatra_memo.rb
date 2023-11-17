@@ -3,31 +3,21 @@
 require 'bundler/setup'
 Bundler.require(:default)
 require 'sinatra/reloader'
-require 'json'
+require 'pg'
 
-MEMOS_FILE = 'memos.json' # ファイルパスを変更しやすくするために定数化している
-
-def load_memos
-  if File.exist? MEMOS_FILE
-    JSON.parse(File.read(MEMOS_FILE)) # 変数のスコープを最低限にするため、代入処理は含めていない
-  else
-    []
-  end
-end
-
-def save_memos(memos)
-  File.write(MEMOS_FILE, JSON.pretty_generate(memos))
+configure do
+  set :conn, PG.connect(dbname: 'memos')
 end
 
 def assign_memos_element(memo_id)
-  memos = load_memos[memo_id.to_i]
+  memo = settings.conn.exec('SELECT * FROM memos WHERE memo_id = $1', [memo_id]).first
   @index = memo_id
-  @memo_title = memos['title']
-  @memo_body = memos['body']
+  @memo_title = memo['title']
+  @memo_body = memo['body']
 end
 
 get '/' do
-  @memos = load_memos
+  @memos = settings.conn.exec('SELECT * FROM memos ORDER BY memo_id ASC')
   erb :top
 end
 
@@ -36,10 +26,8 @@ get '/memos/new' do
 end
 
 post '/memos' do
-  memos = load_memos
   memo = { title: params[:title], body: params[:body] }
-  memos << memo
-  save_memos(memos)
+  settings.conn.exec('INSERT INTO memos (title, body) VALUES ($1, $2)', [memo[:title], memo[:body]])
   redirect to('/')
 end
 
@@ -54,17 +42,13 @@ get '/memos/:id' do
 end
 
 delete '/memos/:id' do
-  memos = load_memos
-  memos.delete_at(params[:id].to_i)
-  save_memos(memos)
+  settings.conn.exec('DELETE FROM memos WHERE memo_id = $1', [params[:id]])
   redirect to('/')
 end
 
 patch '/memos/:id' do
-  memos = load_memos
   memo = { title: params[:title], body: params[:body] }
-  memos[params[:id].to_i].replace(memo)
-  save_memos(memos)
+  settings.conn.exec('UPDATE memos SET (title, body) = ($1, $2) WHERE memo_id = $3', [memo[:title], memo[:body], params[:id]])
   redirect to("/memos/#{params[:id]}")
 end
 
